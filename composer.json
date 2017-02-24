@@ -1,0 +1,26 @@
+{
+    "name": "frondor/larabuild",
+    "require-dev": {
+        "php": ">=5.6",
+        "ext-zip": "*",
+        "illuminate/support": "^5.3",
+        "phpunit/phpunit": "^6.0"
+    },
+    "authors": [
+        {
+            "name": "Federico",
+            "email": "urusign@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Frondor\\Larabuild\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Frondor\\Larabuild\\Tests\\": "tests/"
+      }
+    },
+    "minimum-stability": "dev"
+}
