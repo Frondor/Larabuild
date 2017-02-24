@@ -74,7 +74,12 @@ class SharedWebhostingDriver
         if ($process->isSuccessful()) {
             $process->stop(3);
             foreach ($this->manager->listContents('local://.temp', true) as $path) {
+                if (strpos($path['path'], '/.git/') !== false ) {
+                    continue;
+                }
+                
                 $path['path'] = str_replace('.temp/', '', $path['path']);
+
                 if ($path['type'] == 'dir' && $path['basename'] != 'database') { // because of permissions problems in windows
                     $this->manager->createDir('zip://'.$this->config['app_name'].DIRECTORY_SEPARATOR.$path['path']);
                 }
@@ -123,7 +128,7 @@ class SharedWebhostingDriver
 
     	foreach ($files as $file) {
     		$output = strncmp($file, 'public', strlen('public')) === 0 
-    		? str_replace('public', $this->config['public_folder'], $file)
+    		? str_replace('public', $this->config['new_public_folder'], $file)
     		: $this->config['app_name'].DIRECTORY_SEPARATOR.$file;
 
     		if (is_dir(base_path($file))) { // because of permissions problems in windows
