@@ -37,5 +37,15 @@ class LarabuildServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             dirname(__DIR__).'/config/larabuild.php', 'larabuild'
         );
+
+        if ($this->app->config['app.env'] == 'production') {
+            $update_public_path = $this->app->config['larabuild.new_public_folder'];
+            if ($update_public_path) {
+                $this->app->bind('path.public', function() {
+                    return str_replace('laravel', $update_public_path, base_path());
+                });
+            }
+            $update_public_path = null;
+        }
     }
 }

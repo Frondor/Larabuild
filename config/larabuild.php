@@ -4,7 +4,10 @@ return [
 
 	'app_name' => 'laravel',
 
-	'public_folder' => 'public_html',
+	/**
+	 * Set to NULL if you don't want to split your project folders.
+	 */
+	'new_public_folder' => 'public_html',
 
 	'compile_assets' => true,
 

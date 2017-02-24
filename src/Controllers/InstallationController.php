@@ -10,7 +10,7 @@ class InstallationController
 {
     public function install(Request $request)
     {
-    	if (!App::routesAreCached()) {
+    	if (!App::routesAreCached() && config('app.env' == 'production')) {
 	    	//Artisan::call('auth:clear-resets');
 	    	Artisan::call('storage:link');
 	    	Artisan::call('config:cache');
