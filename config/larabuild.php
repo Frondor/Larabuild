@@ -9,6 +9,7 @@ return [
 	 */
 	'new_public_folder' => 'public_html',
 
+	// NOT IMPLEMENTED
 	'compile_assets' => true,
 
 	'artisan' => [
