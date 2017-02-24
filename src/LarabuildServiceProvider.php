@@ -41,7 +41,7 @@ class LarabuildServiceProvider extends ServiceProvider
         if ($this->app->config['app.env'] == 'production') {
             $update_public_path = $this->app->config['larabuild.new_public_folder'];
             if ($update_public_path) {
-                $this->app->bind('path.public', function() {
+                $this->app->bind('path.public', function() use ($update_public_path) {
                     return str_replace('laravel', $update_public_path, base_path());
                 });
             }

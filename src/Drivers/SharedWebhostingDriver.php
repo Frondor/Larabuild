@@ -74,7 +74,7 @@ class SharedWebhostingDriver
         if ($process->isSuccessful()) {
             $process->stop(3);
             foreach ($this->manager->listContents('local://.temp', true) as $path) {
-                if (strpos($path['path'], '/.git/') !== false ) {
+                if (strpos($path['path'], '.git') !== false ) {
                     continue;
                 }
                 
@@ -109,12 +109,14 @@ class SharedWebhostingDriver
 
     protected function copyFiles()
     {
+        $this->cmd->info('Copying files');
     	$this->manager->getFilesystem('local')->addPlugin(new ListPaths());
     	$paths = array_intersect( $this->manager->getFilesystem('local')->listPaths(), $this->config['files'] );
     	$files = [];
 
         // glob() can be implemented to match black/white lists
 
+        $this->cmd->info('Creating path array');
     	foreach ($paths as $path) {
     		if (is_file(base_path($path))) {
     			$files[] = $path;
@@ -126,7 +128,9 @@ class SharedWebhostingDriver
     		}
     	}
 
-    	foreach ($files as $file) {
+        $this->cmd->info('foreaching '.count($files).' files');
+    	foreach ($files as $n => $file) {
+            $this->cmd->info("Adding file #{$n} named {$file}");
     		$output = strncmp($file, 'public', strlen('public')) === 0 
     		? str_replace('public', $this->config['new_public_folder'], $file)
     		: $this->config['app_name'].DIRECTORY_SEPARATOR.$file;
@@ -145,7 +149,7 @@ class SharedWebhostingDriver
     {
     	//$ftp = new League\Flysystem\Filesystem($ftpAdapter);
 		$zip = new Filesystem(new ZipArchiveAdapter($build_path));
-		$local = new Filesystem(new Local(base_path(), LOCK_EX, Local::SKIP_LINKS, $this->config['file_permissions']));
+		$local = new Filesystem(new Local(base_path(), LOCK_EX, Local::SKIP_LINKS));
 
 		// Add them in the constructor
 		return $manager = new MountManager([
